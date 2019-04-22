@@ -90,19 +90,31 @@ class Admin (User):
     id = Column(None, ForeignKey('User.ID'), primary_key=True)
     resID = Column(Integer, ForeignKey('restaurant.ID'))
 
+class Reservation(Base):
+    __tablename__ = 'Reservation'
+    ID = Column(Integer, primary_key=True)
+    CusID= Column(Integer, ForeignKey('Customer.id'))
+    numOfPeople= Column (Integer)
+    BranchID= Column(Integer,ForeignKey('branch.ID'))
+    tableID= Column(Integer, ForeignKey('Table.ID'))
+    resID= Column(Integer, ForeignKey('restaurant.ID'))
+    #To Be changed later to the proper column type
+    timeReserved= Column (TEXT)
+    timeMade= Column(TEXT)
+
 
 engine = create_engine('sqlite:///PH.db')
 Base.metadata.create_all(engine)
 Base.metadata.bind = engine
 DBSession = sessionmaker(bind=engine)
 session = DBSession()
+r=Reservation(ID=0, CusID=1, numOfPeople=8, BranchID=0, tableID=0,resID=0, timeReserved="6", timeMade="9")
 #album = Restaurant(ID=0, name="nour",timeStart="9",timeEnd="12",Locations="hdhhgygdhdgfuyehduhfsufhdjsfhuhjdhf" )
 #br= Branch(ID=0,Address="dhsjhsjfsf",numOfTables=5, delivery=True,resID=0)
 #t=table(ID=0, branchID=0, numOfSeats=4,reserved=False)
 #g=Item(ID=0,resID=0, name="fdjkdfhujhdfurhfudf", price=89.3)
 #h=Customer(ID=1,mail="fdfdf",password="dfdf",name="dsdsdsdc",Phone="434242",Address="fdfsd")
-'''
-j=Admin(ID=2,mail="fdfdf",password="dfdf",resID=0)
-session.add(j)
+
+session.add(r)
 session.commit()
-'''
+
