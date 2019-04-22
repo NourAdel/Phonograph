@@ -9,7 +9,7 @@ Base = declarative_base()
 class table(Base):
     __tablename__ = 'table'
     ID = Column(Integer, primary_key=True)
-    branchID = Column(Integer, nullable=False, ForeignKey('branch.ID'))
+    branchID = Column(Integer, nullable=False, ForeignKey='branch.ID')
     numOfSeats = Column(Integer)
     reserved = Column(Boolean)
 
