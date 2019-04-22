@@ -61,8 +61,10 @@ class Item (Base):
    resID = Column(Integer, ForeignKey('restaurant.ID'))
    name= Column(String)
    price= Column(Float)
+   orderID= Column (Integer,ForeignKey('Order.ID'),nullable=True)
    #relatoins
    restaurant= relationship('Restaurant',back_populates="Items")
+   Order=relationship('Order', back_populates="Content")
 
 
 class User (Base):
@@ -102,19 +104,31 @@ class Reservation(Base):
     timeReserved= Column (TEXT)
     timeMade= Column(TEXT)
 
+class Order(Base):
+    __tablename__ = 'Order'
+    ID = Column(Integer, primary_key=True)
+    time=Column (TEXT)
+    delivery=Column(Boolean)
+    price= Column (Float)
+    branchID=Column (Integer, ForeignKey('branch.ID'))
+    timeDelivered=Column (TEXT)
+    done= Column (Boolean)
+    cusID=Column (Integer, ForeignKey('Customer.id'))
+    #relations
 
+    Content=relationship('Item', back_populates="Order")
 engine = create_engine('sqlite:///PH.db')
 Base.metadata.create_all(engine)
 Base.metadata.bind = engine
 DBSession = sessionmaker(bind=engine)
 session = DBSession()
-r=Reservation(ID=0, CusID=1, numOfPeople=8, BranchID=0, tableID=0,resID=0, timeReserved="6", timeMade="9")
+#r=Reservation(ID=0, CusID=1, numOfPeople=8, BranchID=0, tableID=0,resID=0, timeReserved="6", timeMade="9")
 #album = Restaurant(ID=0, name="nour",timeStart="9",timeEnd="12",Locations="hdhhgygdhdgfuyehduhfsufhdjsfhuhjdhf" )
 #br= Branch(ID=0,Address="dhsjhsjfsf",numOfTables=5, delivery=True,resID=0)
 #t=table(ID=0, branchID=0, numOfSeats=4,reserved=False)
 #g=Item(ID=0,resID=0, name="fdjkdfhujhdfurhfudf", price=89.3)
 #h=Customer(ID=1,mail="fdfdf",password="dfdf",name="dsdsdsdc",Phone="434242",Address="fdfsd")
 
-session.add(r)
-session.commit()
+#session.add(r)
+#session.commit()
 
